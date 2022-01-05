@@ -53,8 +53,7 @@ int hook_mouse(int button, int x, int y, t_mlx *mlx)
     mlx->min_re = re + ((mlx->min_re - re) * 1.1);
     mlx->max_im = im + ((mlx->max_im - im) * 1.1);
     mlx->min_im = im + ((mlx->min_im - im) * 1.1);
-    if (mlx->iter > 100)
-      mlx->iter -= 10;
+    mlx->iter -= 10;
 
     //printf("ZOOM OUT\n");
   }
