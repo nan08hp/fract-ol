@@ -42,9 +42,9 @@ int    init(t_mlx *mlx)
   mlx->max_im = 2;
   mlx->min_im = -2;
 
-  mlx->iter = 10;
-  //mlx->iter = 75;
-  //mlx->iter = 100;
+  //mlx->iter = 30;
+  mlx->iter = 200;
+  //mlx->iter = 500;
 
   return (0);
 }

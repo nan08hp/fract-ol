@@ -59,7 +59,7 @@ int get_point(int x, int y, t_mlx mlx);
 int hook_mouse(int button, int x, int y, t_mlx *mlx);
 
 /* fractolの描画・計算 */
-int calc_Mandelbrot(double x, double y, t_mlx *mlx);
+int calc_Mandelbrot(double a, double b, t_mlx *mlx);
 int calc_Julia(double x, double y, t_mlx *mlx);
 void      draw(t_mlx *mlx);
 

@@ -2,6 +2,33 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+int cr(int i)
+{
+    int cr = (i % 256) * (255 - (i % 256)) / 65;
+}
+
+int calc_Tricorn(double a, double b, t_mlx *mlx)
+{
+  double c;
+  double x = 0;
+  double y = 0;
+
+  c = 0;
+  while (c < mlx->iter)
+  {
+    double tmp = x * x - (-y) * (-y) + a;
+    y = 2 * x * (-y) + b;
+    x = tmp;
+
+    if (x * x + y * y > 4.0)
+    {
+      return ((1 - pow(1 - (c / mlx->iter))) * 255);
+    }
+    c++;
+  }
+  return (0);
+}
+
 /* fractolの計算処理などを記述 */
 void      draw(t_mlx *mlx)
 {
@@ -23,106 +50,26 @@ void      draw(t_mlx *mlx)
       double res = calc_Mandelbrot(x, y, mlx);
 
       /**
+       * tricorn
+       */
+      //double res = calc_Tricorn(x, y, mlx);
+
+      /**
        * julia
        */
       //double res = calc_Julia(x, y, mlx);
 
-      //fractal_coloring();
-      if (res == -1)
-	      my_mlx_pixecl_put(&mlx->img, i, j, 0x00000000);
-      else
-	      my_mlx_pixecl_put(&mlx->img, i, j, 0x0000FF00 * res);
+      my_mlx_pixecl_put(&mlx->img, i, j, res);
+
 
       //if (res >= 20)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, res * 20);
+      //  my_mlx_pixecl_put(&mlx->img, i, j, res * 5);
       //else if (res >= 10)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, (res * 20));
-      //else if (res >= 0)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, (res * 20));
-      //else
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x00000000);
-
-      // Best One?
-      //if (res >= 20)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, res * 10);
-      //else if (res >= 10)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, (res * 20));
+      //  my_mlx_pixecl_put(&mlx->img, i, j, (res * 10));
       //else if (res >= 0)
       //  my_mlx_pixecl_put(&mlx->img, i, j, (res * 20));
       //else
       //  my_mlx_pixecl_put(&mlx->img, i, j, 0x00FFFFFF);
-
-      //if (res >= 90)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x00FFA3A3);
-      //else if (res >= 80)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x00FFA3D1);
-      //else if (res >= 70)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x00FFA3FF);
-      //else if (res >= 60)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x00A3A3FF);
-      //else if (res >= 50)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x00A3FFFF);
-      //else if (res >= 40)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x00A3FFD1);
-      //else if (res >= 30)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x00A3FFA3);
-      //else if (res >= 20)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x00D1FFA3);
-      //else if (res >= 10)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x00FFFFA3);
-      //else
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x00000000);
-
-      //if (res >= 90)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0050B985 + res);
-      //else if (res >= 80)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0050B985 + res);
-      //else if (res >= 70)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0050B985 + res);
-      //else if (res >= 60)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0050B985 + res);
-      //else if (res >= 50)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0050B985 + res);
-      //else if (res >= 40)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0050B985 + res);
-      //else if (res >= 30)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0050B985 + res);
-      //else if (res >= 20)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0050B985 + res);
-      //else if (res >= 10)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0050B985 + res);
-      //else
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x00FFFFFF);
-
-      //if (res >= 30)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0050B985 + res * 100);
-      //else
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0050B985 + res);
-
-      //if (res >= 30)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0050B985 + res * 100);
-      //else
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0050B985 + res);
-      
-      //if (res >= 90)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0043811D + res);
-      //else
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0043811D + res);
-
-      //if (res >= 90)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0043811D + res * 90);
-      //else if (res >= 50)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0043811D + res * 50);
-      //else if (res >= 30)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0043811D + res * 30);
-      //else if (res >= 20)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0043811D + res * 20);
-      //else if (res >= 10)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0043811D + res * 10);
-      //else if (res >= 5)
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0043811D + res * 5);
-      //else
-      //  my_mlx_pixecl_put(&mlx->img, i, j, 0x0043811D + res);
 
       j++;
     }
@@ -162,35 +109,46 @@ int calc_Julia(double x, double y, t_mlx *mlx)
 }
 
 /* Mandelbrot */
-int calc_Mandelbrot(double x, double y, t_mlx *mlx)
+int calc_Mandelbrot(double a, double b, t_mlx *mlx)
 {
-  t_complex z;
-  t_complex c; // ガウス平面上の点(a,b)をcと置く。
-  int i;
+  double i;
+  double x = 0;
+  double y = 0;
 
-  /**
-   * 参考リンク
-   * https://tomari.org/main/java/kyokusen/mandelbrot.html
-   */
-
-  z.a = 0;
-  z.b = 0;
-  c.a = x;
-  c.b = y;
   i = 0;
-
-  t_complex point; // Vec (Orbit Trap)
-  point.a = 0;
-  point.b = 0;
-
   while (i < mlx->iter)
   {
-    z = complex_add(complex_multi(z, z), c);
+    double tmp = x * x - y * y + a;
+    y = 2.0 * x * y + b;
+    x = tmp;
+    //printf("%d x: %f y: %f a: %f b: %f\n", (int)i, x, y, a, b);
 
-    if (complex_abs(z) >= 2) // 収束
+    if (x * x + y * y > 4.0)
     {
-      return (i);
+      //printf("iter: %f\n", i);
+      //return ((1 - (1 - (i / mlx->iter))) * 255);
+      return ((1 - pow((1 - (i / mlx->iter)), 9)) * 255);
+
+      //return ((i / mlx->iter) * 16777215);
+      //return (cr(i * 9));
+      //return (i);
+      //return ((int)((i / mlx->iter) * 255) << 16 | (int)(((i / mlx->iter) * 255) * 0.2) << 8 | (int)(((i / mlx->iter) * 255) * 0.7)); // rgb
+      //return (1 - ((i / 100) * 255));
+      //return ((int)(1 - ((i / 100) * 255)) << 8);
     }
+
+    // Coloring Func
+    //if (x * x + y * y > 16.0) 
+    //{
+    //    //double log_zn = logl(x * x + y * y) / 2.0;
+    //    //double nu = logl(log_zn / logl(2.0)) / logl(2.0);
+    //    //return (i - nu);
+    //    //return ((int)(i - nu) << 16 | (int)(i - nu + 100) << 8 | (int)(i - nu + 40)); // rgb
+    //    
+    //    //return i;
+    //    //return ((int)i << 16 | (int)i  << 8 | (int)i); // rgb
+    //}
+
     i++;
   }
 
