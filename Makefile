@@ -5,6 +5,7 @@ SRCS =	src/main.c \
 		src/complex.c \
 		src/hooks.c \
 		src/fractol.c
+
 OBJS = $(SRCS:.c=.o)
 #LIBFT = ./libft/libft.a
 #LIBFT_DIR = ./libft
@@ -18,7 +19,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	#@make -C $(LIBFT_DIR) bonus
-	#@make -C $(MINILIBX_DIR)
+	@make -C $(MINILIBX_DIR)
 	$(CC) -o $(NAME) $(OBJS) $(LIBFT) -L$(MINILIBX_DIR) -lmlx -lX11 -lm -lXext #-fsanitize=address
 
 clean:

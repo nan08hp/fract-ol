@@ -1,6 +1,11 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
-# include <mlx.h>
+//# include <mlx.h>
+# include "../minilibx-linux/mlx.h"
+//# include <X11/Xlib.h>
+//# include <sys/ipc.h>
+//# include <sys/shm.h>
+//# include <X11/extensions/XShm.h>
 # include <math.h>
 
 # define KEY_R_ARROW 65361
