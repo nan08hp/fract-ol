@@ -1,6 +1,8 @@
 #include "../includes/fractol.h"
 #include <stdlib.h>
 #include <stdio.h> 
+#include <string.h>
+
 void my_mlx_pixecl_put(t_data *data, int x, int y, int color)
 {
   char *dst;
@@ -41,10 +43,11 @@ int    init(t_mlx *mlx)
   mlx->max_im = 2;
   mlx->min_im = -2;
 
-  //mlx->iter = 30;
-  //mlx->iter = 100; // Too Few
   mlx->iter = 500; // Good
-  //mlx->iter = 1000; // Good
+  
+
+  mlx->mouse_pos_x = -0.3;
+  mlx->mouse_pos_y = -0.63;
 
   return (0);
 }
@@ -55,19 +58,48 @@ int main_parse(t_mlx *mlx)
   mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
 }
 
+int parse_fractal(char *f, t_mlx *mlx)
+{
+	if (!strncmp(f, "mandelbrot" , 10))
+	{
+		printf("mandelbrot\n");
+		mlx->type = mandelbrot;
+	}
+	else if (!strncmp(f, "julia" , 5))
+	{
+		printf("julia\n");
+		mlx->type = julia;
+	}
+	else if (!strncmp(f, "tricorn" , 7))
+	{
+		printf("tricorn\n");
+		mlx->type = tricorn;
+	}
+	else
+	{
+		return (0);
+	}
+	return (1);
+}
+
 int main(int argc, char **argv)
 {
   t_mlx mlx;
-  init(&mlx);
-  //draw(&mlx);
-  //mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0);
 
-  //mlx_hook(mlx.win, 4, 1L << 2, hook_mouse, &mlx); // マウスの位置を取得
-  mlx_mouse_hook(mlx.win, hook_mouse, &mlx); // １つ上と同じ
-  //mlx_hook(mlx.win, 2, 1L << 0, hook_keydown, &mlx); // 押されたボタンを検知
-  //mlx_key_hook(mlx.win, hook_keydown, &mlx); // １つ上と同じ
+  if (argc != 2)
+  {
+	  printf("Useage: ./fract-ol [mandelbrot|julia|tricorn]\n");
+	  return (0);
+  }
+
+  //printf("%s\n", argv[1]);
+  parse_fractal(argv[1], &mlx);
+
+  init(&mlx);
+  mlx_hook(mlx.win, 6, 1L << 6, get_mouse, &mlx); // マウスの位置を取得 For Julia
+  mlx_mouse_hook(mlx.win, hook_mouse, &mlx);
   mlx_hook(mlx.win, 17, 1L << 17, exit_mlx, &mlx); // ウィンドウを閉じた際の動作
-  //mlx_hook(mlx.win, 2, 1L << 0, exit_mlx, &mlx);
+  mlx_key_hook(mlx.win, close_win, &mlx);
   mlx_loop_hook(mlx.mlx, &main_parse, &mlx); // 描画のイベントを設定
   mlx_loop(mlx.mlx);
 

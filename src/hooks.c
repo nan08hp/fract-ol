@@ -11,14 +11,25 @@ int hook_keydown(int key, void *mlx)
     printf("aが押されました\n");
 }
 
-int get_mouse(int x, int y, void *mlx)
+int close_win(int key, void *mlx)
+{
+  if (key == KEY_ESC)
+  {
+	  exit_mlx(mlx);
+  }
+}
+
+int get_mouse(int x, int y, t_mlx *mlx)
 {
   //printf("x: %d y: %d\n", x, y);
+  mlx->mouse_pos_x = ((x * (mlx->max_re - mlx->min_re)) / mlx->width) + mlx->min_re;;
+  mlx->mouse_pos_y = ((y * (mlx->max_im - mlx->min_im)) / mlx->height) + mlx->min_im;
+  //printf("mouse_x: %f mouse_y: %f\n", mlx->mouse_pos_x, mlx->mouse_pos_y);
 }
 
 int get_point(int x, int y, t_mlx mlx)
 {
-  //printf("x: %d y: %d\n", x, y);
+  printf("x: %d y: %d\n", x, y);
 }
 
 int abs(int n) {
@@ -31,8 +42,6 @@ int abs(int n) {
 
 int hook_mouse(int button, int x, int y, t_mlx *mlx)
 {
-  static int count;
-  //printf("button: %d\n", button);
   if (button == MOUSE_UP) {
     double re = x * ((mlx->max_re - mlx->min_re) / mlx->height) + mlx->min_re;
     double im = y * ((mlx->max_im - mlx->min_im) / mlx->width) + mlx->min_im;
@@ -40,13 +49,9 @@ int hook_mouse(int button, int x, int y, t_mlx *mlx)
     mlx->min_re = re + ((mlx->min_re - re) / 1.1);
     mlx->max_im = im + ((mlx->max_im - im) / 1.1);
     mlx->min_im = im + ((mlx->min_im - im) / 1.1);
-    //mlx->iter += 100;
+    mlx->iter += 100;
     //mlx->iter += mlx->iter;
     //printf("re: %f max: %f min: %f\n", re, mlx->max_re, mlx->min_re);
-    count++;
-    //printf("%dth\n", count);
-
-    //printf("ZOOM IN\n");
   } else if (button == MOUSE_DOWN) {
     double re = x * ((mlx->max_re - mlx->min_re) / mlx->height) + mlx->min_re;
     double im = y * ((mlx->max_im - mlx->min_im) / mlx->width) + mlx->min_im;
@@ -54,7 +59,8 @@ int hook_mouse(int button, int x, int y, t_mlx *mlx)
     mlx->min_re = re + ((mlx->min_re - re) * 1.1);
     mlx->max_im = im + ((mlx->max_im - im) * 1.1);
     mlx->min_im = im + ((mlx->min_im - im) * 1.1);
-    //mlx->iter -= 100;
+    if (mlx->iter > 100)
+    	mlx->iter -= 100;
     //mlx->iter -= mlx->iter;
 
     //printf("ZOOM OUT\n");

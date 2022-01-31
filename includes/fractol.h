@@ -14,10 +14,17 @@
 # define KEY_DOWN_ARROW 65364
 
 # define KEY_Q 113
+# define KEY_ESC 65307
 
 # define MOUSE_UP 4
 # define MOUSE_DOWN 5
 
+typedef enum
+{
+	mandelbrot,
+	julia,
+	tricorn,
+}	t_fractal;
 
 typedef struct s_data 
 {
@@ -37,10 +44,15 @@ typedef struct  s_mlx
     t_data      img;
     double         size; // 現状不要。下のパラメータに置き換えたため。
 
+    double	mouse_pos_x;
+    double	mouse_pos_y;
+
     double      max_re;
     double      min_re;
     double      max_im;
     double      min_im;
+    
+    t_fractal	type;
 
     double      iter;
 }               t_mlx;
@@ -59,7 +71,8 @@ double         complex_abs(t_complex x);
 
 /* hook関連 */
 int hook_keydown(int key, void *mlx);
-int get_mouse(int x, int y, void *mlx);
+int close_win(int key, void *mlx);
+int get_mouse(int x, int y, t_mlx *mlx);
 int get_point(int x, int y, t_mlx mlx);
 int hook_mouse(int button, int x, int y, t_mlx *mlx);
 
@@ -72,5 +85,7 @@ void      draw(t_mlx *mlx);
 /* 描画・色の処理 */
 void my_mlx_pixecl_put(t_data *data, int x, int y, int color);
 int create_trgb(int t, int r, int g, int b);
+
+int		exit_mlx(t_mlx *mlx);
 
 #endif
