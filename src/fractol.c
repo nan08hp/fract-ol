@@ -2,10 +2,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int cr(int i)
-{
-	int cr = (i % 256) * (255 - (i % 256)) / 65;
-}
 
 int calc_Tricorn(double a, double b, t_mlx *mlx)
 {
@@ -63,21 +59,6 @@ void      draw(t_mlx *mlx)
 				res = calc_Tricorn(x0, y0, mlx);
 			}
 
-			/**
-			 * mandelbrot
-			 */
-			//double res = calc_Mandelbrot(x0, y0, mlx);
-
-			/**
-			 * tricorn
-			 */
-			//double res = calc_Tricorn(x0, y0, mlx);
-
-			/**
-			 * julia
-			 */
-			//double res = calc_Julia(x0, y0, mlx);
-
 			my_mlx_pixecl_put(&mlx->img, i, j, res);
 
 			j++;
@@ -95,21 +76,16 @@ int calc_Julia(double x, double y, t_mlx *mlx)
 	c = 0;
 	while (c < mlx->iter)
 	{
-		//double tmp = x * x - y * y - 0.3;
-		//y = 2 * x * y - 0.63;
 		double tmp = x * x - y * y - mlx->mouse_pos_x;
 		y = 2 * x * y - mlx->mouse_pos_y;
 		x = tmp;
 		if (x * x + y * y > 4.0) // 収束
 		{
-			//return ((int)(120 + 20 * y) << 16 | (int)(120 + 20 * y) << 8 | (int)(120 + 20 * y));
-			//return ((1 - pow((1 - (c / mlx->iter)), 9)) * 255);
-			nu = c - log(log(pow(x, 2) + pow(y, 2))) + 4.0; // same as above
+			nu = c - log(log(pow(x, 2) + pow(y, 2))) + 4.0;
 			break;
 		}
 		c++;
 	}
-	//return (0);
 	return ((int)((0.5 + 0.5 * cos(3.0 + 0.15 * nu)) * 255) << 16 | (int)((0.5 + 0.5 * cos(3.0 + 0.15 * nu + 0.6)) * 255) << 8 | (int)((0.5 + 0.5 * cos(3.0 + 0.15 * nu + 1)) * 255)); // smooth
 }
 
@@ -130,11 +106,10 @@ int calc_Mandelbrot(double a, double b, t_mlx *mlx)
 		y = 2.0 * x * y + b;
 		x = tmp;
 
-		//if (d > pow(x, 2) + pow(y, 2))
-		//{
-		//	d = pow(x, 2) + pow(y, 2);
-		//	//d = pow(x - 1, 2); // > 100
-		//}
+		if (d > pow(x, 2) + pow(y, 2))
+		{
+			d = pow(x, 2) + pow(y, 2);
+		}
 
 		if (pow(x, 2) + pow(y, 2) > 4.0)
 		{
@@ -147,25 +122,9 @@ int calc_Mandelbrot(double a, double b, t_mlx *mlx)
 	}
 
 	// Orbit Trap
-	//return ((pow((1 - d / 8), 99) * 255));
+	return ((pow((1 - d / 8), 99) * 255));
 
-	//return ((int)((0.5 + 0.5 * cos(3.0 + 0.15 * i)) * 255) << 16 | (int)((0.5 + 0.5 * cos(3.0 + 0.15 * i)) * 255) << 8 | (int)((0.5 + 0.5 * cos(3.0 + 0.15 * i)) * 255));
-	//return ((int)((0.5 + 0.5 * cos(3.0 + 0.15 * i)) * 255) << 16 | (int)((0.5 + 0.5 * cos(3.0 + 0.15 * i + 0.6)) * 255) << 8 | (int)((0.5 + 0.5 * cos(3.0 + 0.15 * i + 1)) * 255));
-	return ((int)((0.5 + 0.5 * cos(3.0 + 0.15 * nu)) * 255) << 16 | (int)((0.5 + 0.5 * cos(3.0 + 0.15 * nu + 0.6)) * 255) << 8 | (int)((0.5 + 0.5 * cos(3.0 + 0.15 * nu + 1)) * 255)); // smooth
-	//return ((int)((0.5 + 0.5 * cos(3.0 + 0.15 * nu)) * 255) << 16 | (int)((0.5 + 0.5 * cos(3.0 + 0.15 * nu + (3.14/2))) * 255) << 8 | (int)((0.5 + 0.5 * cos(3.0 + 0.15 * nu + 3.14)) * 255)); // smooth
-	//return ((int)((0.5 + 0.5 * cos(3.0 + 0.15 * nu * 0.9)) * 255) << 16 | (int)((0.5 + 0.5 * cos(3.0 + 0.15 * nu * 0.6)) * 255) << 8 | (int)((0.5 + 0.5 * cos(3.0 + 0.15 * nu * 0.7)) * 255)); // smooth
-	//return ((int)((0.5 + 0.5 * cos(3.0 + 0.15 * nu * 0.9)) * 255) << 16 | (int)((0.5 + 0.5 * cos(3.0 + 0.15 * nu)) * 255) << 8 | (int)((0.5 + 0.5 * cos(3.0 + 0.15 * nu * 0.7)) * 255)); // smooth
-
-	//return ((int)((1 - pow((1 - (i / mlx->iter)), 9)) * 255) << 16);
-	//return ((int)((1 - pow((1 - (i / mlx->iter)), 9)) * 255) << 16 | (int)((1 - pow((1 - (i / mlx->iter)), 9) * 0.6) * 255) << 8 | (int)((1 - pow((1 - (i / mlx->iter)), 9) * 0.8) * 255));
-
-	//return ((1 - (1 - (i / mlx->iter))) * 255);
-	//return ((int)((1 - pow((1 - (i / mlx->iter)), 40)) * 255) << 16);
-	//return ((1 - pow((1 - (i / mlx->iter)), 1)) * 16777215);
-
-	//return (cr(i * 9) << 16 | cr(i * 9) << 8 | cr(i * 9)); // naibukannsuu
-	//return ((int)(1 - ((i / mlx->iter) * 255)) << 8);
-	//return ((int)((i / mlx->iter) * 255) << 16 | (int)(((i / mlx->iter) * 255) * 0.2) << 8 | (int)(((i / mlx->iter) * 255) * 0.7)); // rgb //  //return (1 - ((i / 100) * 255));
+	//return ((int)((0.5 + 0.5 * cos(3.0 + 0.15 * nu)) * 255) << 16 | (int)((0.5 + 0.5 * cos(3.0 + 0.15 * nu + 0.6)) * 255) << 8 | (int)((0.5 + 0.5 * cos(3.0 + 0.15 * nu + 1)) * 255)); // smooth
 
 
 	// Perrinperson

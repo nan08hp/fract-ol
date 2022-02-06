@@ -11,11 +11,31 @@ int hook_keydown(int key, void *mlx)
     printf("aが押されました\n");
 }
 
-int close_win(int key, void *mlx)
+int hook_key(int key, t_mlx *mlx)
 {
   if (key == KEY_ESC)
   {
 	  exit_mlx(mlx);
+  }
+  else if (key == KEY_UP_ARROW)
+  {
+	 mlx->min_im -= (mlx->max_re - mlx->min_re) * 0.01;
+	 mlx->max_im -= (mlx->max_re - mlx->min_re) * 0.01;
+  }
+  else if (key == KEY_DOWN_ARROW)
+  {
+	 mlx->min_im += (mlx->max_re - mlx->min_re) * 0.01;
+	 mlx->max_im += (mlx->max_re - mlx->min_re) * 0.01;
+  }
+  else if (key == KEY_R_ARROW)
+  {
+	 mlx->min_re += (mlx->max_re - mlx->min_re) * 0.01;
+	 mlx->max_re += (mlx->max_re - mlx->min_re) * 0.01;
+  }
+  else if (key == KEY_L_ARROW)
+  {
+	 mlx->min_re -= (mlx->max_re - mlx->min_re) * 0.01;
+	 mlx->max_re -= (mlx->max_re - mlx->min_re) * 0.01;
   }
 }
 

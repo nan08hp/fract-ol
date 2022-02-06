@@ -2,9 +2,9 @@ NAME = ./fract-ol
 CC = gcc
 CFLAGS = -g #-Wall -Wextra -Werror
 SRCS =	src/main.c \
-		src/complex.c \
 		src/hooks.c \
 		src/fractol.c
+		#src/complex.c \
 
 OBJS = $(SRCS:.c=.o)
 #LIBFT = ./libft/libft.a

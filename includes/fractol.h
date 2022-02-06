@@ -19,7 +19,7 @@
 # define MOUSE_UP 4
 # define MOUSE_DOWN 5
 
-typedef enum
+typedef enum e_fractal_type
 {
 	mandelbrot,
 	julia,
@@ -71,7 +71,7 @@ double         complex_abs(t_complex x);
 
 /* hook関連 */
 int hook_keydown(int key, void *mlx);
-int close_win(int key, void *mlx);
+int hook_key(int key, t_mlx *mlx);
 int get_mouse(int x, int y, t_mlx *mlx);
 int get_point(int x, int y, t_mlx mlx);
 int hook_mouse(int button, int x, int y, t_mlx *mlx);
