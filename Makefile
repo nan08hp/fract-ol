@@ -1,16 +1,16 @@
-NAME = ./fract-ol
+NAME = fract-ol
 CC = gcc
-CFLAGS = -g #-Wall -Wextra -Werror
-SRCS =	src/main.c \
-		src/hooks.c \
-		src/fractol.c
-		#src/complex.c \
+CFLAGS = -Wall -Wextra -Werror
+SRCS = src/main.c \
+	src/hooks.c \
+	src/fractol.c \
+	src/utils.c \
+	src/draw.c
 
 OBJS = $(SRCS:.c=.o)
-#LIBFT = ./libft/libft.a
-#LIBFT_DIR = ./libft
 MINILIBX_DIR = ./minilibx-linux
-#INCLUDE = -I ./includes -I ./minilibx
+LIBFT_DIR = ./libft
+INCLUDE = -I ./include -I ./minilibx_linux
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
@@ -18,21 +18,22 @@ MINILIBX_DIR = ./minilibx-linux
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	#@make -C $(LIBFT_DIR) bonus
 	@make -C $(MINILIBX_DIR)
-	$(CC) -o $(NAME) $(OBJS) $(LIBFT) -L$(MINILIBX_DIR) -lmlx -lX11 -lm -lXext #-fsanitize=address
+	@make -C $(LIBFT_DIR) bonus
+	$(CC) -o $(NAME) $(OBJS) -L$(LIBFT_DIR) -L$(MINILIBX_DIR) -lft -lmlx -lX11 -lm -lXext
+
+bonus: $(NAME)
 
 clean:
-	#@make clean -C $(LIBFT_DIR)
-	#@make clean -C $(MINILIBX_DIR)
+	@make clean -C $(LIBFT_DIR)
+	@make clean -C $(MINILIBX_DIR)
 	rm -f $(OBJS)
 
 fclean: clean
-	#@make fclean -C $(LIBFT_DIR)
-	#@make clean -C $(MINILIBX_DIR)
+	@make fclean -C $(LIBFT_DIR)
+	@make clean -C $(MINILIBX_DIR)
 	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
-
+.PHONY: all clean fclean re bonus
