@@ -6,12 +6,13 @@
 /*   By: konagash <konagash@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 02:48:07 by konagash          #+#    #+#             */
-/*   Updated: 2022/02/16 10:42:09 by konagash         ###   ########.fr       */
+/*   Updated: 2022/02/20 05:43:56 by konagash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fractol.h"
-#include "../libft/libft.h" 
+#include "fractol.h"
+#include "libft.h" 
+#include <math.h>
 
 static double	color_range_cos(double i, double r, double g, double b)
 {
@@ -27,30 +28,27 @@ static double	color_range_sin(double i, double r, double g, double b)
 			| (int)((0.5 + 0.5 * sin(3.0 + 0.15 * i + b)) * 255));
 }
 
-double	calc_color_range(double i, double x, double y, t_mlx *mlx)
+static double	calc_smooth_param(double i, double x2, double y2, t_mlx *mlx)
 {
-	double	nu;
+	if (mlx->color == CosSmooth1 || mlx->color == SinSmooth1)
+		return (i - log(log((x2) + (y2))) + 4.0);
+	else if (mlx->color == CosSmooth2 || mlx->color == SinSmooth2)
+		return (sqrt(i));
+	else
+		return (i);
+}
+
+double	calc_color_range(double i, double x2, double y2, t_mlx *mlx)
+{
 	double	s;
 
-	nu = i - log(log((x * x) + (y * y))) + 4.0;
-	s = sqrt(i);
-	if (mlx->color == Cos)
-		return (color_range_cos(i, 0, 0.6, 1));
-	else if (mlx->color == CosSmooth1)
-		return (color_range_cos(nu, 0, 0.6, 1));
-	else if (mlx->color == CosSmooth2)
+	s = calc_smooth_param(i, x2, y2, mlx);
+	if (mlx->color == Cos || mlx->color == CosSmooth1 || \
+		mlx->color == CosSmooth2)
 		return (color_range_cos(s, 0, 0.6, 1));
-	else if (mlx->color == Sin)
-		return (color_range_sin(i, 0, 0.6, 1));
-	else if (mlx->color == SinSmooth1)
-		return (color_range_sin(nu, 0, 0.6, 1));
-	else if (mlx->color == SinSmooth2)
+	else if (mlx->color == Sin || mlx->color == SinSmooth1 || \
+		mlx->color == SinSmooth2)
 		return (color_range_sin(s, 0, 0.6, 1));
-	else if (mlx->color == Perrinperson)
-		return ((int)(x * x * 64) << 16 | (int)(y * y * 64) << 8 | 0);
-	else if (mlx->color == Metalic)
-		return ((int)(120 + 20 * y) << 16 | (int)(120 + 20 * y) << 8 \
-				| (int)(120 + 20 * y));
 	return (-1);
 }
 
@@ -70,7 +68,7 @@ void	draw(t_mlx *mlx)
 		while (j < mlx->height)
 		{
 			y = calc_screen_pos_y(j, mlx);
-			res = select_fractal(x, y, mlx);
+			res = select_calc_fractal(x, y, mlx);
 			if (res == -1)
 			{
 				ft_putstr_fd("Error: Unknown fractal or color range", 2);

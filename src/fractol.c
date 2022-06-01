@@ -6,12 +6,12 @@
 /*   By: konagash <konagash@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 02:40:35 by konagash          #+#    #+#             */
-/*   Updated: 2022/02/16 10:04:11 by konagash         ###   ########.fr       */
+/*   Updated: 2022/02/20 05:51:24 by konagash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fractol.h"
-#include "../libft/libft.h"
+#include "fractol.h"
+#include "libft.h"
 
 int	parse_fractal(char *f, t_mlx *mlx)
 {
@@ -26,7 +26,7 @@ int	parse_fractal(char *f, t_mlx *mlx)
 	return (1);
 }
 
-double	select_fractal(double x, double y, t_mlx *mlx)
+double	select_calc_fractal(double x, double y, t_mlx *mlx)
 {
 	if (mlx->type == Mandelbrot)
 		return (calc_mandelbrot(x, y, mlx));
@@ -54,7 +54,7 @@ double	calc_mandelbrot(double a, double b, t_mlx *mlx)
 		y = 2.0 * x * y + b;
 		x = tmp;
 		if (x * x + y * y > 4.0)
-			return (calc_color_range(i, x, y, mlx));
+			return (calc_color_range(i, x * x, y * y, mlx));
 		i++;
 	}
 	return (0);
@@ -62,8 +62,8 @@ double	calc_mandelbrot(double a, double b, t_mlx *mlx)
 
 double	calc_julia(double x, double y, t_mlx *mlx)
 {
-	double	tmp;
 	double	i;
+	double	tmp;
 
 	i = 0;
 	while (i < mlx->iter)
@@ -72,7 +72,7 @@ double	calc_julia(double x, double y, t_mlx *mlx)
 		y = 2 * x * y - mlx->mouse_pos_y;
 		x = tmp;
 		if (x * x + y * y > 4.0)
-			return (calc_color_range(i, x, y, mlx));
+			return (calc_color_range(i, x * x, y * y, mlx));
 		i++;
 	}
 	return (0);
@@ -90,11 +90,11 @@ double	calc_tricorn(double a, double b, t_mlx *mlx)
 	i = 0;
 	while (i < mlx->iter)
 	{
-		tmp = x * x - (-y) * (-y) + a;
-		y = 2 * x * (-y) + b;
+		tmp = x * x - y * y + a;
+		y = 2.0 * x * (-y) + b;
 		x = tmp;
 		if (x * x + y * y > 4.0)
-			return (calc_color_range(i, x, y, mlx));
+			return (calc_color_range(i, x * x, y * y, mlx));
 		i++;
 	}
 	return (0);

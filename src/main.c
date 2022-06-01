@@ -6,12 +6,13 @@
 /*   By: konagash <konagash@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 19:20:29 by konagash          #+#    #+#             */
-/*   Updated: 2022/02/17 04:17:15 by konagash         ###   ########.fr       */
+/*   Updated: 2022/02/20 05:44:43 by konagash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fractol.h"
-#include "../libft/libft.h"
+#include "fractol.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 void	my_mlx_pixecl_put(t_data *data, int x, int y, int color)
 {
@@ -63,7 +64,11 @@ int	main(int argc, char **argv)
 
 	if (argc != 2 || !parse_fractal(argv[1], &mlx))
 	{
-		printf("Usage: ./fract-ol [mandelbrot|julia|tricorn]\n");
+		printf("Usage: ./fractol [Fractal]\n");
+		printf("[Fractal]\n");
+		printf("\t- mandelbrot\n");
+		printf("\t- julia\n");
+		printf("\t- tricorn\n");
 		return (1);
 	}
 	init(&mlx);

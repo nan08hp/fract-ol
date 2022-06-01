@@ -6,11 +6,11 @@
 /*   By: konagash <konagash@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 02:39:50 by konagash          #+#    #+#             */
-/*   Updated: 2022/02/15 02:39:50 by konagash         ###   ########.fr       */
+/*   Updated: 2022/02/19 18:11:13 by konagash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fractol.h"
+#include "fractol.h"
 
 double	calc_screen_pos_x(int pos, t_mlx *mlx)
 {

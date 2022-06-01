@@ -6,17 +6,13 @@
 /*   By: konagash <konagash@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 10:25:42 by konagash          #+#    #+#             */
-/*   Updated: 2022/02/17 04:17:39 by konagash         ###   ########.fr       */
+/*   Updated: 2022/02/20 05:31:38 by konagash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 # include "../minilibx-linux/mlx.h"
-# include <math.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <stdlib.h>
 # define KEY_R_ARROW 65361
 # define KEY_UP_ARROW 65362
 # define KEY_L_ARROW 65363
@@ -42,8 +38,6 @@ typedef enum e_color_range
 	Sin,
 	SinSmooth1,
 	SinSmooth2,
-	Perrinperson,
-	Metalic,
 }	t_color;
 
 typedef struct s_data
@@ -68,30 +62,27 @@ typedef struct s_mlx
 	double		min_re;
 	double		max_im;
 	double		min_im;
-	long		iter;
+	double		iter;
 	t_color		color;
 	t_fractal	type;
 }	t_mlx;
 
-/* hook関連 */
 int		hook_keydown(int key, void *mlx);
 int		hook_key(int key, t_mlx *mlx);
 int		get_mouse(int x, int y, t_mlx *mlx);
 int		get_point(int x, int y, t_mlx mlx);
 int		hook_mouse(int button, int x, int y, t_mlx *mlx);
 
-/* fractolの描画・計算 */
 double	calc_mandelbrot(double a, double b, t_mlx *mlx);
 double	calc_julia(double x, double y, t_mlx *mlx);
 double	calc_tricorn(double a, double b, t_mlx *mlx);
 double	calc_screen_pos_x(int pos, t_mlx *mlx);
 double	calc_screen_pos_y(int pos, t_mlx *mlx);
-double	calc_color_range(double i, double x, double y, t_mlx *mlx);
+double	calc_color_range(double i, double x2, double y2, t_mlx *mlx);
 int		parse_fractal(char *f, t_mlx *mlx);
-double	select_fractal(double screen_x, double screen_y, t_mlx *mlx);
+double	select_calc_fractal(double screen_x, double screen_y, t_mlx *mlx);
 void	draw(t_mlx *mlx);
 
-/* 描画・色の処理 */
 void	my_mlx_pixecl_put(t_data *data, int x, int y, int color);
 int		exit_mlx(t_mlx *mlx);
 void	init(t_mlx *mlx);
